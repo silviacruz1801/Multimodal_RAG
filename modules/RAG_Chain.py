@@ -13,6 +13,7 @@ from langchain.schema.output_parser import StrOutputParser
 class RAG_Chain:
     def __init__(self, mm_llm, retriever):
         self._mm_llm = mm_llm
+        self._retriever = retriever
 
         self._chain = self._multi_modal_rag_chain(retriever)
 
@@ -134,3 +135,6 @@ class RAG_Chain:
     
     def get_chain(self):
         return self._chain
+    
+    def get_retriever(self):
+        return self._retriever

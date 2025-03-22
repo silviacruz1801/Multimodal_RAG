@@ -1,7 +1,3 @@
-from DataLoader import DataLoader
-from DataSummarizer import DataSummarizer
-from DataRetriever import DataRetriever
-from RAG_Chain import RAG_Chain
 import argparse
 
 
@@ -28,8 +24,6 @@ def main():
     )
 
     args = parser.parse_args()
-
-    data_loader = DataLoader(args.fdir, args.imgdir)
 
 if __name__ == '__main__':
     main()

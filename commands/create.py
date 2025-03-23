@@ -10,9 +10,9 @@ def run(args):
     data_summarizer = DataSummarizer(data_loader, texts, tables, args.llm, args.mm_llm)
     text_summaries, table_summaries, img_base64_list, image_summaries = data_summarizer.generate_summaries(args.imgdir)
 
-    data_retriever = DataRetriever(text_summaries, texts, table_summaries, 
-                                   tables, image_summaries, img_base64_list, args.llm, 
-                                   args.fdir)
+    data_retriever = DataRetriever(args.llm, args.storage)
+    data_retriever.create_retriever(text_summaries, texts, table_summaries, 
+                                                 tables, image_summaries, img_base64_list)
 
     
 

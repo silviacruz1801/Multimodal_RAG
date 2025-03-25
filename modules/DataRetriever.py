@@ -20,6 +20,8 @@ class DataRetriever:
         Create retriever that indexes summaries, but returns raw images or texts
         """
 
+        print("Creando el Data Retriever...\n")
+
         embeddings = OllamaEmbeddings(model=self._llm)
 
         # The vectorstore to use to index the summaries
@@ -70,6 +72,8 @@ class DataRetriever:
     def load_retriever(self):
         if os.path.exists(self._persist_dir) and os.listdir(self._persist_dir):
             raise Exception("El directorio del retriever no existe o está vacío")
+        
+        print("Recuperando el Data Retriever...\n")
         
         embeddings = OllamaEmbeddings(model=self._llm)
 

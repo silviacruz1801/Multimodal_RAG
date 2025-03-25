@@ -3,6 +3,8 @@ from modules.DataRetriever import DataRetriever
 
 
 def run(args):
+    print("Procesando la query...\n")
+
     data_retriever = DataRetriever(args.llm, args.storage)
     retriever = data_retriever.load_retriever()
 

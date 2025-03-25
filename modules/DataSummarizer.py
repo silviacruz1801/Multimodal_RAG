@@ -8,6 +8,7 @@ from langchain_ollama.llms import OllamaLLM
 import base64
 import os
 from langchain_core.messages import HumanMessage
+from tqdm import tqdm
 
 
 class DataSummarizer:
@@ -22,10 +23,10 @@ class DataSummarizer:
     def _generate_text_summaries(self, summarize_texts=False):
         """
         Summarize text elements
-        texts: List of str
-        tables: List of str
         summarize_texts: Bool to summarize texts
         """
+
+        print("Resumiendo los archivos de texto...\n")
 
         # Prompt
         prompt_text = """You are an assistant tasked with summarizing tables and text for retrieval. \
@@ -88,6 +89,8 @@ class DataSummarizer:
         path: Path to list of .jpg files extracted by Unstructured
         """
 
+        print("Resumiendo las imágenes...\n")
+
         # Store base64 encoded images
         img_base64_list = []
 
@@ -100,7 +103,7 @@ class DataSummarizer:
         Give a concise summary of the image that is well optimized for retrieval."""
 
         # Apply to images
-        for img_file in sorted(os.listdir(path)):
+        for _, img_file in tqdm(enumerate(sorted(os.listdir(path)))):
             if img_file.endswith(".jpg"):
                 img_path = os.path.join(path, img_file)
                 base64_image = self._encode_image(img_path)

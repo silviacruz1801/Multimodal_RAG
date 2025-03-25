@@ -115,6 +115,8 @@ class RAG_Chain:
         Multi-modal RAG chain
         """
 
+        print("Creando la RAG Chain...\n")
+
         # Multi-modal LLM
         model = ChatOllama(
             temperature=0, model=self._mm_llm, num_predict=1024

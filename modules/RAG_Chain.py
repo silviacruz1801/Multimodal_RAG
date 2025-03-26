@@ -8,6 +8,7 @@ from langchain.schema.document import Document
 from langchain_core.messages import HumanMessage
 from langchain_ollama.chat_models import ChatOllama
 from langchain.schema.output_parser import StrOutputParser
+from rich.progress import Progress, SpinnerColumn, TextColumn
 
 
 class RAG_Chain:
@@ -116,22 +117,30 @@ class RAG_Chain:
         """
 
         print("Creando la RAG Chain...\n")
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            transient=True,  # Para que desaparezca al finalizar
+        ) as progress:
+            task = progress.add_task("Procesando...", total=None)
+            
+            # Multi-modal LLM
+            model = ChatOllama(
+                temperature=0, model=self._mm_llm, num_predict=1024
+            )
 
-        # Multi-modal LLM
-        model = ChatOllama(
-            temperature=0, model=self._mm_llm, num_predict=1024
-        )
-
-        # RAG pipeline
-        chain = (
-            {
-                "context": retriever | RunnableLambda(self._split_image_text_types),
-                "question": RunnablePassthrough(),
-            }
-            | RunnableLambda(self._img_prompt_func)
-            | model
-            | StrOutputParser()
-        )
+            # RAG pipeline
+            chain = (
+                {
+                    "context": retriever | RunnableLambda(self._split_image_text_types),
+                    "question": RunnablePassthrough(),
+                }
+                | RunnableLambda(self._img_prompt_func)
+                | model
+                | StrOutputParser()
+            )
+            
+            progress.update(task, description="Tarea completada")
 
         return chain
     

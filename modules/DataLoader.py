@@ -1,17 +1,18 @@
 from unstructured.partition.pdf import partition_pdf
 import os
 from rich.progress import Progress, BarColumn, TextColumn, TimeRemainingColumn
+from PIL import ImageFile
 
 
 class DataLoader:
     def __init__(self, files_dir, images_dir):
-        print("Creando el Data Loader...\n")
-
         self._files_dir = files_dir
         self._images_dir = images_dir
         self._pdf_elements = self._get_elements()
 
     def _get_elements(self):
+        ImageFile.LOAD_TRUNCATED_IMAGES = True
+
         files_name = os.listdir(self._files_dir)
         files = [os.path.join(self._files_dir, f) for f in files_name]
 
